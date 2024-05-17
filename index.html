@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="./css/main.css" rel="stylesheet"/>
+        <title>Test AviaSales</title>
+    </head>
+    <body>
+        <div class="content">
+            <div class="more-elems-button">
+                <span class="more-elems-txt">Показать еще 5 билетов!</span>
+            </div>
+            <div class="tickets-container">
+                
+            </div>
+            <div class="sort-container">
+                <table class="sort-table">
+                    <tr>
+                        <td class="sort-td">
+                            <div class="sort-button active" id="optimal">
+                                <span class="sort-txt">Оптимальный</span>
+                            </div>
+                        </td>
+                        <td class="sort-td">
+                            <div class="sort-button" id="fastest">
+                                <span class="sort-txt">Самый быстрый</span>
+                            </div>
+                        </td>
+                        <td class="sort-td">
+                            <div class="sort-button" id="cheapest">
+                                <span class="sort-txt">Самый дешевый</span>
+                            </div>
+                        </td>
+                    </tr>
+    
+                </table>
+            </div>
+            <div class="filter-container">
+                <span class="parametr-name">Количество пересадок</span>
+                <ul class="filter-ul">
+                    <li class="filter-row">
+                        <input type="checkbox" class = "checkbox" value='3'>
+                        <div class="filter-txt-container">
+                            <span class="filter-txt">3 пересадки</span>
+                        </div>
+                    </li>
+                    <li class="filter-row">
+                        <input type="checkbox" class = "checkbox" value='2'>
+                        <div class="filter-txt-container">
+                            <span class="filter-txt">2 пересадки</span>
+                        </div>
+                    </li>
+                    <li class="filter-row">
+                        <input type="checkbox" class = "checkbox" value='1'>
+                        <div class="filter-txt-container">
+                            <span class="filter-txt">1 пересадка</span>
+                        </div>
+                    </li>
+                    <li class="filter-row">
+                        <input type="checkbox" class = "checkbox" value='0'>
+                        <div class="filter-txt-container">
+                            <span class="filter-txt">Без пересадок</span>
+                        </div>
+                    </li>
+                    <li class="filter-row">
+                        <input type="checkbox" id="checkbox_all" class = "checkbox" value="-1">
+                        <div class="filter-txt-container">
+                            <span class="filter-txt">Все</span>
+                        </div>
+                    </li>
+                </ul>
+                
+            </div>
+            <div class="logo-container">
+                <img class= "logo-img" src = "../src/images/logo.png">
+                </div>
+            </div>
+        </div>
+        <script src="./js/main.js"></script>
+    </body>
+</html>

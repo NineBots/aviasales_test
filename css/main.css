@@ -1,0 +1,301 @@
+/* open-sans-regular - cyrillic_latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/open-sans-v40-cyrillic_latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* open-sans-600 - cyrillic_latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/open-sans-v40-cyrillic_latin-600.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  font-size: 14px;
+  font: "Open Sans"
+}
+html{
+  box-sizing: border-box;
+}
+*, *::before, *::after{
+  box-sizing: inherit;
+}
+
+.ticket-column{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.content {
+  width: 100%;
+  height: 1350px;
+  background: rgba(243,247,250,1);
+  opacity: 1;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+}
+.tickets-container{
+  width: 502px;
+  height: auto;
+  opacity: 1;
+  position: absolute;
+  top: 230px;
+  left: 355px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+.ticket-header{
+  width: 462px;
+  height: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.checkbox {
+  display: inline-block;
+  margin: 0;
+  cursor: pointer;
+  min-width: 20px;
+  min-height: 20px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  transition: background-color 0.2s; /* Добавляем плавный переход */
+}
+.checkbox input:checked{
+  background-color: #007bff; /* Меняем фон при нажатии */
+}
+.filter-ul{
+  list-style-type: none;
+  padding-inline-start: 0px;
+}
+th{
+  padding: 0;
+}
+.more-elems-button {
+  width: 502px;
+  height: 50px;
+  opacity: 1;
+  position: absolute;
+  top: 1250px;
+  left: 355px;
+  background-color: #2196F3;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+}
+.more-elems-txt{
+  font-family: Open Sans;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin: auto;
+}
+.ticket-card {
+  width: 502px;
+  height: 184px;
+  opacity: 1;
+  padding: 20px 0px 0px 20px;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+.info-row {
+  width: 462px;
+  height: 39px;
+  opacity: 1;
+}
+.grey-ticket-txt {
+  width: 141px;
+  color: #A0B0B9;
+  font-family: Open Sans;
+  font-weight: 600;
+  font-size: 12px;
+  opacity: 1;
+  text-align: left;
+  line-height: 18px;
+}
+.black-ticket-txt {
+  width: 141px;
+  color: #4A4A4A;
+  font-family: Open Sans;
+  font-weight: 600;
+  font-size: 14px;
+  opacity: 1;
+  text-align: left;
+  line-height: 21px;
+}
+.price-container {
+  width: 50%;
+  height: 36px;
+  opacity: 1;
+  overflow: hidden;
+}
+.price {
+  width: 147px;
+  color: rgba(33,150,243,1);
+  font-family: Open Sans;
+  font-weight: 600;
+  font-size: 24px;
+  opacity: 1;
+  text-align: left;
+}
+.sort-table {
+  width: 500px;
+  height: 50px;
+  opacity: 1;
+  border-collapse: collapse;
+  border: 1px solid #DFE5EC;
+  background-color: #DFE5EC;
+  display: table;
+}
+.sort-container{
+  position: absolute;
+  width: 502px;
+  height: 50px;
+  top: 160px;
+  left: 355px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.sort-txt {
+  width: 138px;
+  color: rgba(74,74,74,1);
+  top: 15px;
+  left: 349px;
+  font-family: Open Sans;
+  font-weight: 600;
+  font-size: 12px;
+  opacity: 1;
+  margin: auto;
+}
+.sort-td{
+  border: 1px solid #DFE5EC;
+  padding:0;
+  
+}
+.sort-button {
+  padding:0;
+  width: 166px;
+  height: 48px;
+  background: rgba(255,255,255,1);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.sort-button.active {
+  background-color: #2196F3;
+}
+.sort-button.active .sort-txt {
+  color: white;
+}
+.sort-button:hover {
+  cursor: pointer;
+}
+.filter-container {
+  max-width: 232px;
+  min-height: 252px;
+  height: auto;
+  padding-left: 20px;
+  padding-top: 20px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  border-radius: 5px;
+  opacity: 1;
+  position: absolute;
+  top: 160px;
+  left: 103px;
+  overflow: hidden;
+  background: rgba(255,255,255,1);
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.10000000149011612);
+  overflow: hidden;
+
+}
+
+.filter-row {
+  max-width: 232px;
+  max-height: 20px;
+  margin-bottom: 20px;
+  color: rgba(74,73,74,1);
+  top: 0px;
+  font-family: Open Sans;
+  font-weight: Regular;
+  font-size: 13px;
+  opacity: 1;
+  text-align: start;
+  line-height: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.filter-txt {
+
+  color: rgba(74,73,74,1);
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: 13px;
+  opacity: 1;
+}
+.filter-txt-container{
+  width: 112px;
+  text-align: left;
+  display: inline-block; 
+  vertical-align: middle;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 10px;
+}
+.parametr-name {
+  width: 192px;
+  top: 20px;
+  left: 20px;
+  font-weight: SemiBold;
+  opacity: 1;
+  text-align: left;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-size: 12px;
+  line-height: 12px;
+  display: flex;
+  align-items: flex-end;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #4A4A4A;
+}
+.logo-container {
+  width: 60px;
+  height: 60px;
+  background: url("../images/v1_705.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  position: absolute;
+  top: 50px;
+  left: 450px;
+  overflow: hidden;
+}
+.logo-img{
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
