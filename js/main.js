@@ -1,88 +1,125 @@
+//значения фильтра
 var filter_values = ["-1"];
+//значения сортировки
 var sort_value = "Оптимальный";
+
+
+//при создании
 (function(){
   const checkboxAll = document.querySelector("#checkbox_all");
   checkboxAll.checked = new Boolean(true);
-  updateTickets_Local();
+  updateTickets();
 
   // Выбираем все кнопки сортировки
   const sortButtons = document.querySelectorAll(".sort-button");
 
-  // Добавляем обработчик клика для каждой кнопки
+  //обработчик клика для каждой кнопки
   sortButtons.forEach(button => {
     button.addEventListener("click", () => {
+
       // Убираем класс "active" у всех кнопок
       sortButtons.forEach(b => b.classList.remove("active"));
-
       // Добавляем класс "active" нажатой кнопке
       button.classList.add("active");
+
       sort_value = button.id;
-      updateTickets_Local();
+      updateTickets();
     });
   });
 
+  //обработчик изменения для каждого checkbox
   const checkboxes = document.querySelectorAll(".checkbox");
     checkboxes.forEach(checkbox => {
       checkbox.addEventListener('change', () => {
+
         filter_values = [];
+        //получаем все нажатые чекбоксы
         active_checkboxes = document.querySelectorAll(".checkbox:checked");
+        //добавляем их к массиву с фильтрами
         active_checkboxes.forEach(checkbox => filter_values.push(checkbox.value));
-        updateTickets_Local();
+        updateTickets();
       });
     });
 }());
 
-function updateTickets_Local(){
-  fetch('http://localhost:3000/tickets',{
-    method: "GET"})  
-  .then(res => {
-    if(res.ok){
-      return res.json();
+
+//получить билеты из источника
+async function updateTickets() {
+  json_server_url = 'http://localhost:3000/tickets';
+  json_local_path = './test_data.json';
+  
+  try {
+    const res = await fetch(json_local_path);
+    if (res.ok) {
+      const data = await res.json();
+      addTickets(data.tickets);
+    } else {
+      console.error('Ошибка:', res.status);
     }
-    else{
-      console.log(error);
+  } catch (error) {
+    const res = await fetch(json_server_url);
+    if (res.ok) {
+      const data = await res.json();
+      addTickets(data.tickets);
+    } else {
+      console.error('Ошибка:', res.status);
     }
-  })
-  .then(data => addTickets(data))
-  .catch(updateTickets_Public())
+  }
 }
 
-function updateTickets_Public(){
-  fetch('./test_data.json')
-   .then(res => {
-      return res.json();
-  })
-  .then(data => addTickets(data.tickets))
-  }
 
+//добавить билеты
 function addTickets(tickets){
   const ticketsContainer = document.querySelector(".tickets-container");
   ticketsContainer.innerHTML = "";
-  tickets_limit = 0;
-  ticket_index=0;
-  if(sort_value == "fastest"){
+
+  //сортировка
+  if (sort_value == "fastest"){
     tickets.sort((a,b) => {
-      a_duration = a.segments[0].duration + a.segments[1].duration;
-      b_duration = b.segments[0].duration + b.segments[1].duration;
-      return a_duration-b_duration;
+      return (a.segments[0].duration + a.segments[1].duration) -
+             (b.segments[0].duration + b.segments[1].duration);
     })
   }
   else if(sort_value == "cheapest"){
-    tickets.sort((a,b) => {
-      a_price = a.price;
-      b_price = b.price;
-      return a_price-b_price;
-    })
+    tickets.sort((a,b) => {return a.price - b.price})
   }
+
+  //фильтрация и отображение
+  tickets_limit = 0;
+  ticket_index = 0;
   while(tickets_limit != 5){
     ticket = tickets[ticket_index];
-    stops = 0;
-    ticket.segments.forEach(segment => {
-      segment.stops.forEach(() => stops+=1)
-    })
-    if(filter_values.includes(""+stops) || filter_values.includes("-1") || filter_values.length == 0){
-      price = new Intl.NumberFormat().format(ticket.price)
-      ticketsContainer.innerHTML += `
+    stops = getNumOfStops(ticket);
+
+    if (filter_values.includes(""+stops) ||
+        filter_values.includes("-1") ||
+        filter_values.length == 0) {
+      putTicketInContainer(ticketsContainer, ticket);
+      tickets_limit += 1;
+    }
+    ticket_index+=1;
+  }
+  ticketsContainer.innerHTML += `
+  <div class="more-elems-button">
+    <span class="more-elems-txt">Показать еще 5 билетов!</span>
+  </div>
+  `
+}
+
+
+//получить кол-во пересадок
+function getNumOfStops(ticket){
+  stops = 0
+  ticket.segments.forEach(segment => {
+    segment.stops.forEach(() => stops+=1)
+  })
+  return stops;
+}
+
+//добавить один элемент в контейнер
+function putTicketInContainer(container, ticket){
+  price = new Intl.NumberFormat().format(ticket.price)
+      container.innerHTML += `
       <div class="ticket-card">
         <div class = "ticket-header">
             <div class="price-container">
@@ -95,28 +132,28 @@ function addTickets(tickets){
             ${getSegments(ticket)}
         </table>
       </div>`;
-      tickets_limit += 1;
-    }
-    ticket_index+=1;
-
-  }
 }
 
+
+//заполнить недостающие цифры нулями
 function fillWithZeros(length_of_num, num){
   return ('0'.repeat(length_of_num) + num).slice(length_of_num*-1);
 }
+
+
+//получить сегменты билета
 function getSegments(ticket){
-  console.log(ticket);
   segments_html = "";
   ticket.segments.forEach(segment => {
     origin = segment.origin;
     destination = segment.destination;
     departure_date = new Date(segment.date);
-    departure_time = fillWithZeros(2,departure_date.getHours()) + ':' + fillWithZeros(2,departure_date.getMinutes());
+    departure_time = dateToTime(departure_date);
     stops = segment.stops;
     duration = segment.duration;
     arrival_date = new Date(departure_date.getTime() + duration * 60 * 1000);
-    arrival_time = `${fillWithZeros(2,arrival_date.getHours())}:${fillWithZeros(2,arrival_date.getMinutes())}`;
+    arrival_time = dateToTime(arrival_date);
+
     segments_html += `
     <tr class = "info-row">
       <th>
@@ -140,7 +177,13 @@ function getSegments(ticket){
     </tr>
     `;
   })
-    
   return segments_html;
+}
+
+
+//привести дату к hh:mm
+function dateToTime(date){
+  return fillWithZeros(2, date.getHours()) + ':' +
+          fillWithZeros(2, date.getMinutes());
 }
 
