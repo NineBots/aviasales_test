@@ -3,7 +3,8 @@ var sort_value = "Оптимальный";
 (function(){
   const checkboxAll = document.querySelector("#checkbox_all");
   checkboxAll.checked = new Boolean(true);
-  updateTickets();
+  updateTickets_Local();
+
   // Выбираем все кнопки сортировки
   const sortButtons = document.querySelectorAll(".sort-button");
 
@@ -16,7 +17,7 @@ var sort_value = "Оптимальный";
       // Добавляем класс "active" нажатой кнопке
       button.classList.add("active");
       sort_value = button.id;
-      updateTickets();
+      updateTickets_Local();
     });
   });
 
@@ -26,18 +27,33 @@ var sort_value = "Оптимальный";
         filter_values = [];
         active_checkboxes = document.querySelectorAll(".checkbox:checked");
         active_checkboxes.forEach(checkbox => filter_values.push(checkbox.value));
-        updateTickets();
+        updateTickets_Local();
       });
     });
 }());
 
-function updateTickets(){
+function updateTickets_Local(){
   fetch('http://localhost:3000/tickets',{
     method: "GET"})  
-  .then(res => res.json())
-  .then(data => addTickets(data));
-
+  .then(res => {
+    if(res.ok){
+      return res.json();
+    }
+    else{
+      console.log(error);
+    }
+  })
+  .then(data => addTickets(data))
+  .catch(updateTickets_Public())
 }
+
+function updateTickets_Public(){
+  fetch('./test_data.json')
+   .then(res => {
+      return res.json();
+  })
+  .then(data => addTickets(data.tickets))
+  }
 
 function addTickets(tickets){
   const ticketsContainer = document.querySelector(".tickets-container");
@@ -65,7 +81,7 @@ function addTickets(tickets){
       segment.stops.forEach(() => stops+=1)
     })
     if(filter_values.includes(""+stops) || filter_values.includes("-1") || filter_values.length == 0){
-      price = new Intl.NumberFormat().format(ticket['price'])
+      price = new Intl.NumberFormat().format(ticket.price)
       ticketsContainer.innerHTML += `
       <div class="ticket-card">
         <div class = "ticket-header">
@@ -90,6 +106,7 @@ function fillWithZeros(length_of_num, num){
   return ('0'.repeat(length_of_num) + num).slice(length_of_num*-1);
 }
 function getSegments(ticket){
+  console.log(ticket);
   segments_html = "";
   ticket.segments.forEach(segment => {
     origin = segment.origin;
