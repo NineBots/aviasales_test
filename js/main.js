@@ -30,6 +30,14 @@ var sort_value = "Оптимальный";
     checkboxes.forEach(checkbox => {
       checkbox.addEventListener('change', () => {
         filter_values = [];
+        if(checkbox.checked){
+          checkbox.classList.add("checked");
+          checkbox.closest("li").classList.add("active")
+        }
+        else{
+          checkbox.classList.remove("checked");
+          checkbox.closest("li").classList.remove("active")
+        }
         //получаем все нажатые чекбоксы
         const active_checkboxes = document.querySelectorAll(".checkbox:checked");
         //добавляем их к массиву с фильтрами

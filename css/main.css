@@ -17,7 +17,7 @@
   src: url("../fonts/open-sans-v40-cyrillic_latin-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-.left-column{
+.left-column {
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
@@ -29,7 +29,8 @@
 
 body {
   font-size: 14px;
-  font-style: "Open Sans";
+  font-family: "Open Sans";
+  letter-spacing: 0;
   background: #f3f7fa;
 }
 
@@ -99,22 +100,33 @@ html {
 }
 
 .checkbox {
+  display: none;
+}
+
+.checkbox + label::before {
   display: inline-block;
   min-width: 20px;
   min-height: 20px;
-  margin: 0;
+  margin-left: 20px;
   background-color: #fff;
-  border: 2px solid #ccc;
-  border-radius: 5px;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 2px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  content: "";
 }
 
-.checkbox input:checked {
-  background-color: #007bff;
+.checkbox.checked + label::before {
+  background-color: #f1fcff;
+  background-image: url("/src/images/checked_checkbox.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 1px solid #2196f3;
 }
 
 .filter-ul {
+  margin-top: 10px;
+  margin-bottom: 0;
   list-style-type: none;
   padding-inline-start: 0;
 }
@@ -139,6 +151,7 @@ th {
   font-weight: 600;
   font-size: 12px;
   line-height: 20px;
+  letter-spacing: 0.5px;
   text-align: center;
   text-transform: uppercase;
 }
@@ -164,6 +177,7 @@ th {
   font-weight: 600;
   font-size: 12px;
   line-height: 18px;
+  letter-spacing: 0.5px;
   text-align: left;
 }
 
@@ -213,6 +227,7 @@ th {
   color: #4a4a4a;
   font-weight: 600;
   font-size: 12px;
+  letter-spacing: 0.5px;
 }
 
 .sort-td {
@@ -248,7 +263,6 @@ th {
   max-height: 252px;
   margin-bottom: 20px;
   padding-top: 20px;
-  padding-left: 20px;
   overflow: hidden;
   background: #fff;
   border-radius: 5px;
@@ -258,14 +272,19 @@ th {
 .filter-row {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   max-width: 232px;
-  max-height: 20px;
-  margin-bottom: 20px;
+  height: 40px;
   color: #4a494a;
   font-weight: 400;
   font-size: 13px;
   line-height: 20px;
   text-align: start;
+  background-color: none;
+}
+
+.filter-row.active {
+  background-color: #f1fcff;
 }
 
 .filter-txt {
@@ -288,10 +307,11 @@ th {
   display: flex;
   align-items: flex-end;
   width: 192px;
+  margin-right: 20px;
+  margin-left: 20px;
   color: #4a4a4a;
   font-weight: 600;
   font-size: 12px;
-  font-style: normal;
   line-height: 12px;
   letter-spacing: 0.5px;
   text-align: left;
