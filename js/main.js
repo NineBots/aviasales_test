@@ -4,10 +4,9 @@ var filter_values = ["-1"];
 var sort_value = "Оптимальный";
 
 
-//при создании
+//при создании страницы
 (function(){
-  const checkboxAll = document.querySelector("#checkbox_all");
-  checkboxAll.checked = new Boolean(true);
+
   updateTickets();
 
   // Выбираем все кнопки сортировки
@@ -16,7 +15,6 @@ var sort_value = "Оптимальный";
   //обработчик клика для каждой кнопки
   sortButtons.forEach(button => {
     button.addEventListener("click", () => {
-
       // Убираем класс "active" у всех кнопок
       sortButtons.forEach(b => b.classList.remove("active"));
       // Добавляем класс "active" нажатой кнопке
@@ -31,10 +29,9 @@ var sort_value = "Оптимальный";
   const checkboxes = document.querySelectorAll(".checkbox");
     checkboxes.forEach(checkbox => {
       checkbox.addEventListener('change', () => {
-
         filter_values = [];
         //получаем все нажатые чекбоксы
-        active_checkboxes = document.querySelectorAll(".checkbox:checked");
+        const active_checkboxes = document.querySelectorAll(".checkbox:checked");
         //добавляем их к массиву с фильтрами
         active_checkboxes.forEach(checkbox => filter_values.push(checkbox.value));
         updateTickets();
@@ -45,8 +42,8 @@ var sort_value = "Оптимальный";
 
 //получить билеты из источника
 async function updateTickets() {
-  json_server_url = 'http://localhost:3000/tickets';
-  json_local_path = './test_data.json';
+  const json_server_url = 'http://localhost:3000/tickets';
+  const json_local_path = './test_data.json';
   
   try {
     const res = await fetch(json_local_path);
@@ -56,7 +53,7 @@ async function updateTickets() {
     } else {
       console.error('Ошибка:', res.status);
     }
-  } catch (error) {
+  } catch{
     const res = await fetch(json_server_url);
     if (res.ok) {
       const data = await res.json();
@@ -85,11 +82,11 @@ function addTickets(tickets){
   }
 
   //фильтрация и отображение
-  tickets_limit = 0;
-  ticket_index = 0;
+  let tickets_limit = 0;
+  let ticket_index = 0;
   while(tickets_limit != 5){
-    ticket = tickets[ticket_index];
-    stops = getNumOfStops(ticket);
+    const ticket = tickets[ticket_index];
+    const stops = getNumOfStops(ticket);
 
     if (filter_values.includes(""+stops) ||
         filter_values.includes("-1") ||
@@ -99,33 +96,31 @@ function addTickets(tickets){
     }
     ticket_index+=1;
   }
-  ticketsContainer.innerHTML += `
-  <div class="more-elems-button">
-    <span class="more-elems-txt">Показать еще 5 билетов!</span>
-  </div>
-  `
 }
 
 
 //получить кол-во пересадок
 function getNumOfStops(ticket){
-  stops = 0
+  let stops = 0
   ticket.segments.forEach(segment => {
     segment.stops.forEach(() => stops+=1)
   })
   return stops;
 }
 
+
 //добавить один элемент в контейнер
 function putTicketInContainer(container, ticket){
-  price = new Intl.NumberFormat().format(ticket.price)
+  const price = new Intl.NumberFormat().format(ticket.price)
+  const img_src = "https://pics.avs.io/99/36/" + ticket.carrier + ".png";
       container.innerHTML += `
       <div class="ticket-card">
         <div class = "ticket-header">
             <div class="price-container">
                 <span class="price">${price} Р </span>
             </div>
-            <div class="company-img">
+            <div class="company-img-container">
+              <img class="company-img" src="${img_src}"/>
             </div>
         </div>
         <table class="ticket-info">
@@ -143,16 +138,16 @@ function fillWithZeros(length_of_num, num){
 
 //получить сегменты билета
 function getSegments(ticket){
-  segments_html = "";
+  let segments_html = "";
   ticket.segments.forEach(segment => {
-    origin = segment.origin;
-    destination = segment.destination;
-    departure_date = new Date(segment.date);
-    departure_time = dateToTime(departure_date);
-    stops = segment.stops;
-    duration = segment.duration;
-    arrival_date = new Date(departure_date.getTime() + duration * 60 * 1000);
-    arrival_time = dateToTime(arrival_date);
+    const origin = segment.origin;
+    const destination = segment.destination;
+    const departure_date = new Date(segment.date);
+    const departure_time = dateToTime(departure_date);
+    const stops = segment.stops;
+    const duration = segment.duration;
+    const arrival_date = new Date(departure_date.getTime() + duration * 60 * 1000);
+    const arrival_time = dateToTime(arrival_date);
 
     segments_html += `
     <tr class = "info-row">
